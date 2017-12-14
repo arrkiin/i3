@@ -225,7 +225,7 @@ struct Config {
         struct Colortriple unfocused;
         struct Colortriple urgent;
         struct Colortriple placeholder;
-    } client;
+    } client[QUBE_NUM_LABELS];
     struct config_bar {
         struct Colortriple focused;
         struct Colortriple unfocused;

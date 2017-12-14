@@ -200,14 +200,99 @@ void load_configuration(xcb_connection_t *conn, const char *override_configpath,
         x.child_border = draw_util_hex_to_color(cbackground);  \
     } while (0)
 
-    config.client.background = draw_util_hex_to_color("#000000");
-    INIT_COLOR(config.client.focused, "#4c7899", "#285577", "#ffffff", "#2e9ef4");
-    INIT_COLOR(config.client.focused_inactive, "#333333", "#5f676a", "#ffffff", "#484e50");
-    INIT_COLOR(config.client.unfocused, "#333333", "#222222", "#888888", "#292d2e");
-    INIT_COLOR(config.client.urgent, "#2f343a", "#900000", "#ffffff", "#900000");
+    config.client[QUBE_DOM0].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_DOM0].focused,
+        "#522702", "#522702", "#ffffff", "#a6907d");
+    INIT_COLOR(config.client[QUBE_DOM0].focused_inactive,
+        "#522702", "#361a01", "#ffffff", "#a6907d");
+    INIT_COLOR(config.client[QUBE_DOM0].unfocused,
+        "#522702", "#361a01", "#999999", "#a6907d");
+    INIT_COLOR(config.client[QUBE_DOM0].urgent,
+        "#666666", "#a6907d", "#ce0000", "#a6907d");
+
+    config.client[QUBE_RED].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_RED].focused,
+        "#e53b27", "#e53b27", "#ffffff", "#f19b90");
+    INIT_COLOR(config.client[QUBE_RED].focused_inactive,
+        "#e53b27", "#902519", "#ffffff", "#f19b90");
+    INIT_COLOR(config.client[QUBE_RED].unfocused,
+        "#e53b27", "#902519", "#999999", "#f19b90");
+    INIT_COLOR(config.client[QUBE_RED].urgent,
+        "#e53b27", "#f19b90", "#ce0000", "#f19b90");
+
+    config.client[QUBE_ORANGE].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_ORANGE].focused,
+        "#d05f03", "#d05f03", "#ffffff", "#daa67e");
+    INIT_COLOR(config.client[QUBE_ORANGE].focused_inactive,
+        "#d05f03", "#7b3702", "#ffffff", "#daa67e");
+    INIT_COLOR(config.client[QUBE_ORANGE].unfocused,
+        "#d05f03", "#7b3702", "#999999", "#daa67e");
+    INIT_COLOR(config.client[QUBE_ORANGE].urgent,
+        "#d05f03", "#daa67e", "#ce0000", "#daa67e");
+
+    config.client[QUBE_YELLOW].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_YELLOW].focused,
+        "#999b00", "#999b00", "#ffffff", "#cacb7c");
+    INIT_COLOR(config.client[QUBE_YELLOW].focused_inactive,
+        "#999b00", "#666700", "#ffffff", "#cacb7c");
+    INIT_COLOR(config.client[QUBE_YELLOW].unfocused,
+        "#999b00", "#666700", "#999999", "#cacb7c");
+    INIT_COLOR(config.client[QUBE_YELLOW].urgent,
+        "#999b00", "#cacb7c", "#ce0000", "#cacb7c");
+
+    config.client[QUBE_GREEN].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_GREEN].focused,
+        "#04af5b", "#04af5b", "#ffffff", "#7dd5aa");
+    INIT_COLOR(config.client[QUBE_GREEN].focused_inactive,
+        "#04af5b", "#02713b", "#ffffff", "#7dd5aa");
+    INIT_COLOR(config.client[QUBE_GREEN].unfocused,
+        "#04af5b", "#02713b", "#999999", "#7dd5aa");
+    INIT_COLOR(config.client[QUBE_GREEN].urgent,
+        "#04af5b", "#7dd5aa", "#ce0000", "#7dd5aa");
+
+    config.client[QUBE_GRAY].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_GRAY].focused,
+        "#8c959f", "#8c959f", "#ffffff", "#c3c8cd");
+    INIT_COLOR(config.client[QUBE_GRAY].focused_inactive,
+        "#8c959f", "#676d75", "#ffffff", "#c3c8cd");
+    INIT_COLOR(config.client[QUBE_GRAY].unfocused,
+        "#8c959f", "#676d75", "#999999", "#c3c8cd");
+    INIT_COLOR(config.client[QUBE_GRAY].urgent,
+        "#8c959f", "#c3c8cd", "#ce0000", "#c3c8cd");
+
+    config.client[QUBE_BLUE].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_BLUE].focused,
+        "#3384d6", "#3384d6", "#ffffff", "#95bee8");
+    INIT_COLOR(config.client[QUBE_BLUE].focused_inactive,
+        "#3384d6", "#1f5082", "#ffffff", "#95bee8");
+    INIT_COLOR(config.client[QUBE_BLUE].unfocused,
+        "#3384d6", "#1f5082", "#999999", "#95bee8");
+    INIT_COLOR(config.client[QUBE_BLUE].urgent,
+        "#3384d6", "#95bee8", "#ce0000", "#95bee8");
+
+    config.client[QUBE_PURPLE].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_PURPLE].focused,
+        "#8f5cbe", "#8f5cbe", "#ffffff", "#c6abdd");
+    INIT_COLOR(config.client[QUBE_PURPLE].focused_inactive,
+        "#8f5cbe", "#5c3e78", "#ffffff", "#c6abdd");
+    INIT_COLOR(config.client[QUBE_PURPLE].unfocused,
+        "#8f5cbe", "#5c3e78", "#999999", "#c6abdd");
+    INIT_COLOR(config.client[QUBE_PURPLE].urgent,
+        "#8f5cbe", "#c6abdd", "#ce0000", "#c6abdd");
+
+    config.client[QUBE_BLACK].background = draw_util_hex_to_color("#121212");
+    INIT_COLOR(config.client[QUBE_BLACK].focused,
+        "#595959", "#595959", "#ffffff", "#a3a3a3");
+    INIT_COLOR(config.client[QUBE_BLACK].focused_inactive,
+        "#595959", "#3a3a3a", "#ffffff", "#a3a3a3");
+    INIT_COLOR(config.client[QUBE_BLACK].unfocused,
+        "#595959", "#3a3a3a", "#999999", "#a3a3a3");
+    INIT_COLOR(config.client[QUBE_BLACK].urgent,
+        "#595959", "#a3a3a3", "#ce0000", "#a3a3a3");
 
     /* border and indicator color are ignored for placeholder contents */
-    INIT_COLOR(config.client.placeholder, "#000000", "#0c0c0c", "#ffffff", "#000000");
+    INIT_COLOR(config.client[QUBE_DOM0].placeholder,
+        "#000000", "#0c0c0c", "#ffffff", "#000000");
 
     /* the last argument (indicator color) is ignored for bar colors */
     INIT_COLOR(config.bar.focused, "#4c7899", "#285577", "#ffffff", "#000000");
@@ -233,6 +318,12 @@ void load_configuration(xcb_connection_t *conn, const char *override_configpath,
     config.focus_wrapping = FOCUS_WRAPPING_ON;
 
     parse_configuration(override_configpath, true);
+
+    /* redefine defaults, to overwrite user settings easily */
+    config.default_border = BS_NORMAL;
+    config.default_floating_border = BS_NORMAL;
+    config.default_border_width = logical_px(2);
+    config.default_floating_border_width = logical_px(2);
 
     if (reload) {
         translate_keysyms();

@@ -409,15 +409,25 @@ void x_draw_decoration(Con *con) {
     /* 1: build deco_params and compare with cache */
     struct deco_render_params *p = scalloc(1, sizeof(struct deco_render_params));
 
+    /* Find out which Qubes label to use */
+    qube_label_t label = QUBE_DOM0;
+    struct Window *win = con->window;
+    if (win != NULL) {
+        DLOG("con->qubes_label is %d\n", win->qubes_label);
+        if (win->qubes_label >= 0 && win->qubes_label < QUBE_NUM_LABELS) {
+            label = win->qubes_label;
+        }
+    }
+
     /* find out which colors to use */
     if (con->urgent)
-        p->color = &config.client.urgent;
+        p->color = &config.client[label].urgent;
     else if (con == focused || con_inside_focused(con))
-        p->color = &config.client.focused;
+        p->color = &config.client[label].focused;
     else if (con == TAILQ_FIRST(&(parent->focus_head)))
-        p->color = &config.client.focused_inactive;
+        p->color = &config.client[label].focused_inactive;
     else
-        p->color = &config.client.unfocused;
+        p->color = &config.client[label].unfocused;
 
     p->border_style = con_border_style(con);
 
@@ -426,7 +436,7 @@ void x_draw_decoration(Con *con) {
     p->con_rect = (struct width_height){r->width, r->height};
     p->con_window_rect = (struct width_height){w->width, w->height};
     p->con_deco_rect = con->deco_rect;
-    p->background = config.client.background;
+    p->background = config.client[QUBE_DOM0].background;
     p->con_is_leaf = con_is_leaf(con);
     p->parent_layout = con->parent->layout;
 
@@ -458,16 +468,16 @@ void x_draw_decoration(Con *con) {
     /* 2: draw the client.background, but only for the parts around the window_rect */
     if (con->window != NULL) {
         /* top area */
-        draw_util_rectangle(&(con->frame_buffer), config.client.background,
+        draw_util_rectangle(&(con->frame_buffer), config.client[QUBE_DOM0].background,
                             0, 0, r->width, w->y);
         /* bottom area */
-        draw_util_rectangle(&(con->frame_buffer), config.client.background,
+        draw_util_rectangle(&(con->frame_buffer), config.client[QUBE_DOM0].background,
                             0, w->y + w->height, r->width, r->height - (w->y + w->height));
         /* left area */
-        draw_util_rectangle(&(con->frame_buffer), config.client.background,
+        draw_util_rectangle(&(con->frame_buffer), config.client[QUBE_DOM0].background,
                             0, 0, w->x, r->height);
         /* right area */
-        draw_util_rectangle(&(con->frame_buffer), config.client.background,
+        draw_util_rectangle(&(con->frame_buffer), config.client[QUBE_DOM0].background,
                             w->x + w->width, 0, r->width - (w->x + w->width), r->height);
     }
 
@@ -547,7 +557,6 @@ void x_draw_decoration(Con *con) {
     /* 6: draw the title */
     int text_offset_y = (con->deco_rect.height - config.font.height) / 2;
 
-    struct Window *win = con->window;
     if (win == NULL) {
         i3String *title;
         if (con->title_format == NULL) {
@@ -604,20 +613,24 @@ void x_draw_decoration(Con *con) {
         FREE(formatted_mark);
     }
 
+    /* set window title, include qubes vmname */
     i3String *title = con->title_format == NULL ? win->name : con_parse_title_format(con);
     if (title == NULL) {
         goto copy_pixmaps;
     }
 
+    char *title_buf;
+    sasprintf(&title_buf, "[%s] %s", i3string_as_utf8(win->qubes_vmname), i3string_as_utf8(title));
+    if (con->title_format != NULL)
+        I3STRING_FREE(title);
+    title = i3string_from_utf8(title_buf);
+    FREE(title_buf);
     draw_util_text(title, &(parent->frame_buffer),
                    p->color->text, p->color->background,
                    con->deco_rect.x + logical_px(2),
                    con->deco_rect.y + text_offset_y,
                    con->deco_rect.width - mark_width - 2 * logical_px(2));
-
-    if (con->title_format != NULL) {
-        I3STRING_FREE(title);
-    }
+    I3STRING_FREE(title);
 
 after_title:
     x_draw_decoration_after_title(con, p);
